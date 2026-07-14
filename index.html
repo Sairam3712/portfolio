@@ -43,11 +43,15 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+    }
+
     body {
       background-color: var(--bg-dark);
       color: var(--text-white);
       line-height: 1.6;
-      overflow-x: hidden;
       position: relative;
     }
 
@@ -178,10 +182,17 @@
       letter-spacing: -0.5px;
       text-decoration: none;
       color: var(--text-white);
-      background: linear-gradient(135deg, #ffffff 60%, #a1a1aa 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       transition: var(--transition-fast);
+    }
+
+    @supports (-webkit-background-clip: text) or (background-clip: text) {
+      .logo {
+        background: linear-gradient(135deg, #ffffff 60%, #a1a1aa 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
     }
 
     .nav-links {
@@ -233,12 +244,13 @@
       display: none;
       flex-direction: column;
       justify-content: space-between;
-      width: 20px;
-      height: 14px;
+      width: 32px;
+      height: 22px;
       background: transparent;
       border: none;
       cursor: pointer;
       z-index: 1010;
+      padding: 4px;
     }
 
     .mobile-menu-toggle span {
@@ -365,12 +377,20 @@
     /* Word Rotator Span Style */
     #rotating-text {
       display: inline-block;
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--accent-purple);
       transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       opacity: 1;
       transform: translateY(0);
+    }
+
+    @supports (-webkit-background-clip: text) or (background-clip: text) {
+      #rotating-text {
+        background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
     }
 
     #rotating-text.fade-out {
@@ -530,9 +550,17 @@
       font-size: clamp(2rem, 3.8vw, 3rem);
       font-weight: 800;
       letter-spacing: -1px;
-      background: linear-gradient(135deg, #ffffff 60%, #a1a1aa 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--text-white);
+    }
+
+    @supports (-webkit-background-clip: text) or (background-clip: text) {
+      .section-title {
+        background: linear-gradient(135deg, #ffffff 60%, #a1a1aa 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
     }
 
     /* Glassmorphism Cards with Spotlight Cursor Tracker Glow */
@@ -607,9 +635,17 @@
       font-size: 1.5rem;
       font-weight: 700;
       margin-bottom: 20px;
-      background: linear-gradient(135deg, #ffffff 70%, #d4d4d8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--text-white);
+    }
+
+    @supports (-webkit-background-clip: text) or (background-clip: text) {
+      .card-header-inner {
+        background: linear-gradient(135deg, #ffffff 70%, #d4d4d8 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
     }
 
     .bento-text {
@@ -1162,6 +1198,9 @@
       .image-glow-container {
         max-width: 290px;
       }
+      .glass-card {
+        padding: 24px 20px;
+      }
     }
   </style>
 </head>
@@ -1346,6 +1385,10 @@
             <p class="project-desc">
               Designed and engineered an asynchronous intelligence portal utilizing Agentic Retrieval-Augmented Generation (RAG) to perform real-time veracity audits. Engineered a multi-threaded backend using Python to manage high-concurrency API requests. Implemented a 'Keyword Guardian' module for targeted Document Object Model (DOM) traversal and institutional data extraction. Programmed deterministic JSON protocols to output Explainable AI (XAI) results with a quantified Truth Percentage.
             </p>
+            <a href="https://finalproject-e78g.onrender.com/" target="_blank" class="project-link">
+              View Live Demo 
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
             <div class="tech-pills-grid" style="margin-top:auto; margin-bottom:0;">
               <span class="tech-pill">Python</span>
               <span class="tech-pill">REST APIs</span>
@@ -1622,7 +1665,7 @@
       const revealOptions = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.08
+        threshold: 0.02 // Lower threshold for better mobile responsiveness
       };
 
       const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -1637,6 +1680,15 @@
       document.querySelectorAll('.reveal').forEach(element => {
         revealObserver.observe(element);
       });
+
+      // Fail-safe: automatically reveal all elements after 1.5 seconds in case of lag/observer issues
+      setTimeout(() => {
+        document.querySelectorAll('.reveal').forEach(element => {
+          if (!element.classList.contains('revealed')) {
+            element.classList.add('revealed');
+          }
+        });
+      }, 1500);
 
       // Navbar Highlight on Scroll
       const sections = document.querySelectorAll('section');
