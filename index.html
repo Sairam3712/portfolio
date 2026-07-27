@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
   <title>Sairam Garlapati | Software Developer Portfolio</title>
   <meta name="description" content="Portfolio of Sairam Garlapati, an aspiring Software Developer specializing in Java development, cyber security, and secure digital architecture.">
   
@@ -14,6 +15,7 @@
   <style>
     /* CSS Variables & Tokens */
     :root {
+      color-scheme: dark;
       --bg-dark: #000000;
       --card-bg: rgba(10, 10, 10, 0.45);
       --card-border: rgba(255, 255, 255, 0.08);
@@ -21,10 +23,10 @@
       --text-white: #ffffff;
       --text-gray: #94a3b8;
       
-      --accent-blue: #0052d4;
-      --accent-blue-rgb: 0, 82, 212;
-      --accent-purple: #7f00ff;
-      --accent-purple-rgb: 127, 0, 255;
+      --accent-blue: #60a5fa;
+      --accent-blue-rgb: 96, 165, 250;
+      --accent-purple: #c084fc;
+      --accent-purple-rgb: 192, 132, 252;
       --accent-glow: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
       
       --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -46,11 +48,13 @@
     html, body {
       overflow-x: hidden;
       width: 100%;
+      background-color: #000000;
+      color: #ffffff;
     }
 
     body {
-      background-color: var(--bg-dark);
-      color: var(--text-white);
+      background-color: #000000;
+      color: #ffffff;
       line-height: 1.6;
       position: relative;
     }
@@ -458,7 +462,7 @@
       transform: translateY(-4px);
     }
 
-    /* Profile Sleek Rounded Square Container with Glowing rotating border */
+    /* Profile Sleek Container with 3D Parallax Stack */
     .hero-image-wrapper {
       display: flex;
       justify-content: center;
@@ -563,7 +567,7 @@
       }
     }
 
-    /* Glassmorphism Cards with Spotlight Cursor Tracker Glow */
+    /* Glassmorphism Cards with Spotlight Glow & 3D Tilt */
     .glass-card {
       background: var(--card-bg);
       backdrop-filter: blur(25px);
@@ -573,10 +577,12 @@
       padding: 40px;
       position: relative;
       overflow: hidden;
-      transition: var(--transition-smooth);
+      transform-style: preserve-3d;
+      transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+      transition: transform 0.15s ease-out, border-color 0.4s ease, box-shadow 0.4s ease;
     }
 
-    /* Underneath Cursor Tracker Glow Orb */
+    /* Underneath Cursor Spotlight Glow Orb */
     .glass-card::before {
       content: "";
       position: absolute;
@@ -593,19 +599,30 @@
       transition: opacity 0.5s ease;
     }
 
+    /* Specular Glass Gleam Overlay */
+    .glass-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        250px circle at var(--shine-x, 0px) var(--shine-y, 0px),
+        rgba(255, 255, 255, 0.12),
+        transparent 80%
+      );
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
     /* Highlight card elements to sit above spotlight overlay */
     .glass-card * {
       position: relative;
       z-index: 2;
     }
 
-    .glass-card:hover {
-      border-color: var(--card-border-hover);
-      transform: translateY(-6px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    }
-
-    .glass-card:hover::before {
+    .glass-card:hover::before,
+    .glass-card:hover::after {
       opacity: 1;
     }
 
@@ -628,7 +645,95 @@
     }
 
     .card-expanding {
-      grid-column: span 2;
+      grid-column: span 1;
+    }
+
+    .card-terminal {
+      grid-column: span 1;
+      display: flex;
+      flex-direction: column;
+      padding: 24px !important;
+    }
+
+    /* Terminal Styles */
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .t-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .t-red { background-color: #ef4444; }
+    .t-yellow { background-color: #eab308; }
+    .t-green { background-color: #22c55e; }
+
+    .terminal-title-text {
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .terminal-body {
+      flex-grow: 1;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.85rem;
+      color: #22c55e;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 120px;
+      max-height: 180px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .terminal-output {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .output-line {
+      word-break: break-all;
+    }
+
+    .terminal-input-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .terminal-prompt {
+      color: #3b82f6;
+      white-space: nowrap;
+    }
+
+    .t-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #22c55e;
+      font-family: inherit;
+      font-size: inherit;
+      flex-grow: 1;
+      padding: 0;
+      margin: 0;
+      width: 100%;
     }
 
     .card-header-inner {
@@ -1131,6 +1236,9 @@
       .card-expanding {
         grid-column: span 1;
       }
+      .card-terminal {
+        grid-column: span 2;
+      }
       .projects-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -1175,7 +1283,7 @@
       .bento-grid {
         grid-template-columns: 1fr;
       }
-      .card-about, .card-skills, .card-expanding {
+      .card-about, .card-skills, .card-expanding, .card-terminal {
         grid-column: span 1;
         grid-row: span 1;
       }
@@ -1347,15 +1455,36 @@
           </div>
         </div>
 
-        <!-- Card 3: Currently Expanding (Spans 2 columns) -->
+        <!-- Card 3: Currently Expanding (Spans 1 column) -->
         <div class="glass-card card-expanding reveal" style="--delay: 300ms">
           <h3 class="card-header-inner">Currently Expanding</h3>
-          <p class="bento-text">
-            Deepening my expertise in enterprise backend development, standard patterns, and structured application routing.
+          <p class="bento-text" style="font-size: 0.92rem; margin-bottom: 20px;">
+            Deepening my expertise in enterprise backend patterns:
           </p>
           <div class="tech-pills-grid">
             <span class="tech-pill highlight">Spring Boot</span>
             <span class="tech-pill highlight">REST API Architecture</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Interactive Security Terminal (Spans 1 column) -->
+        <div class="glass-card card-terminal reveal" style="--delay: 400ms">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <span class="t-dot t-red"></span>
+              <span class="t-dot t-yellow"></span>
+              <span class="t-dot t-green"></span>
+            </div>
+            <span class="terminal-title-text">sairam@gist:~#</span>
+          </div>
+          <div class="terminal-body" id="secTerminal">
+            <div class="terminal-output" id="terminalOutput">
+              <div class="output-line">Type 'help' to audit system.</div>
+            </div>
+            <div class="terminal-input-line">
+              <span class="terminal-prompt">sairam@gist:~$</span>
+              <input type="text" id="terminalInput" autocomplete="off" class="t-input" aria-label="Terminal Input">
+            </div>
           </div>
         </div>
       </div>
@@ -1731,14 +1860,33 @@
       window.addEventListener('scroll', highlightNav);
       highlightNav(); // Initial trigger
 
-      // FEATURE 1: Cursor-Tracking Spotlight Glow
+      // FEATURE 1: Cursor-Tracking Spotlight Glow, Specular Gleam & 3D Tilt
       document.querySelectorAll('.glass-card').forEach(card => {
         card.addEventListener('mousemove', e => {
           const rect = card.getBoundingClientRect();
           const x = e.clientX - rect.left;
           const y = e.clientY - rect.top;
+          
           card.style.setProperty('--mouse-x', `${x}px`);
           card.style.setProperty('--mouse-y', `${y}px`);
+          card.style.setProperty('--shine-x', `${x}px`);
+          card.style.setProperty('--shine-y', `${y}px`);
+          
+          // 3D rotation calculation
+          const width = rect.width;
+          const height = rect.height;
+          const mouseX = x / width - 0.5;
+          const mouseY = y / height - 0.5;
+          
+          const maxRotate = 6; // Subtle 3D tilt
+          const rotateY = mouseX * maxRotate;
+          const rotateX = -mouseY * maxRotate;
+          
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
         });
       });
 
@@ -1842,6 +1990,138 @@
           });
         });
       });
+
+      // FEATURE 5: 3D Interactive Parallax Profile Stack
+      const parallaxContainer = document.getElementById('profileParallax');
+      const parallaxCard = parallaxContainer ? parallaxContainer.querySelector('.parallax-card') : null;
+      
+      if (parallaxContainer && parallaxCard) {
+        parallaxContainer.addEventListener('mousemove', e => {
+          const rect = parallaxContainer.getBoundingClientRect();
+          const width = rect.width;
+          const height = rect.height;
+          
+          const mouseX = (e.clientX - rect.left) / width - 0.5;
+          const mouseY = (e.clientY - rect.top) / height - 0.5;
+          
+          const maxRotate = 15; // Degrees rotation
+          const rotateY = mouseX * maxRotate;
+          const rotateX = -mouseY * maxRotate;
+          
+          parallaxCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+          
+          const layerBack = parallaxCard.querySelector('.layer-back');
+          const layerMiddle = parallaxCard.querySelector('.layer-middle');
+          const layerFront = parallaxCard.querySelector('.layer-front');
+          
+          if (layerBack) {
+            layerBack.style.transform = `translateZ(-40px) scale(0.95) translate(${-mouseX * 15}px, ${-mouseY * 15}px)`;
+          }
+          if (layerMiddle) {
+            const img3d = layerMiddle.querySelector('.profile-img-3d');
+            const tint = layerMiddle.querySelector('.photo-tint-overlay');
+            if (img3d) {
+              img3d.style.transform = `translateZ(25px) scale(1.04) translate(${mouseX * 10}px, ${mouseY * 10}px)`;
+            }
+            if (tint) {
+              tint.style.transform = `translateZ(26px) scale(1.04) translate(${mouseX * 10}px, ${mouseY * 10}px)`;
+            }
+          }
+          if (layerFront) {
+            layerFront.style.transform = `translateZ(50px) translate(${mouseX * 25}px, ${mouseY * 25}px)`;
+          }
+        });
+        
+        parallaxContainer.addEventListener('mouseleave', () => {
+          parallaxCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
+          
+          const layerBack = parallaxCard.querySelector('.layer-back');
+          const layerMiddle = parallaxCard.querySelector('.layer-middle');
+          const layerFront = parallaxCard.querySelector('.layer-front');
+          
+          if (layerBack) {
+            layerBack.style.transform = 'translateZ(-40px) scale(0.95) translate(0px, 0px)';
+          }
+          if (layerMiddle) {
+            const img3d = layerMiddle.querySelector('.profile-img-3d');
+            const tint = layerMiddle.querySelector('.photo-tint-overlay');
+            if (img3d) {
+              img3d.style.transform = 'translateZ(0px) scale(1) translate(0px, 0px)';
+            }
+            if (tint) {
+              tint.style.transform = 'translateZ(0px) scale(1) translate(0px, 0px)';
+            }
+          }
+          if (layerFront) {
+            layerFront.style.transform = 'translateZ(50px) translate(0px, 0px)';
+          }
+        });
+
+        // Remove Parallax Event Listeners since profile style was reverted
+        const cleanParallax = () => {
+          const pc = document.getElementById('profileParallax');
+          if (pc) {
+            const clone = pc.cloneNode(true);
+            pc.parentNode.replaceChild(clone, pc);
+          }
+        };
+        cleanParallax();
+      }
+
+      // FEATURE 6: Cybersecurity Terminal Logic
+      const terminalInput = document.getElementById('terminalInput');
+      const terminalOutput = document.getElementById('terminalOutput');
+      const secTerminal = document.getElementById('secTerminal');
+
+      if (terminalInput && terminalOutput) {
+        // Focus input on terminal card click
+        document.querySelector('.card-terminal').addEventListener('click', () => {
+          terminalInput.focus();
+        });
+
+        terminalInput.addEventListener('keydown', e => {
+          if (e.key === 'Enter') {
+            const rawCmd = terminalInput.value;
+            const cmd = rawCmd.trim().toLowerCase();
+            terminalInput.value = '';
+
+            // Print prompt + command
+            const cmdLine = document.createElement('div');
+            cmdLine.className = 'output-line';
+            cmdLine.style.color = '#3b82f6';
+            cmdLine.innerHTML = `<span style="color:#3b82f6">sairam@gist:~$</span> ${rawCmd}`;
+            terminalOutput.appendChild(cmdLine);
+
+            // Execute command logic
+            const responseLine = document.createElement('div');
+            responseLine.className = 'output-line';
+
+            if (cmd === 'help') {
+              responseLine.innerHTML = 'Available: help, about, skills, contact, clear';
+            } else if (cmd === 'about') {
+              responseLine.innerHTML = 'B.Tech CS (Cyber Security) | GIST 2026. Focus: secure software engineering.';
+            } else if (cmd === 'skills') {
+              responseLine.innerHTML = 'Core: Java, SQL, JavaScript. Basics: Python. Frameworks: Spring Boot.';
+            } else if (cmd === 'contact') {
+              responseLine.innerHTML = 'Email: Sairamsr2431@gmail.com | Phone: +91-6305013335';
+            } else if (cmd === 'clear') {
+              terminalOutput.innerHTML = '';
+              return;
+            } else if (cmd === '') {
+              // empty prompt, do nothing
+              return;
+            } else {
+              responseLine.style.color = '#ef4444';
+              responseLine.innerHTML = `Command not found: ${rawCmd}. Type 'help'.`;
+            }
+
+            terminalOutput.appendChild(responseLine);
+            
+            // Auto scroll to bottom
+            secTerminal.scrollTop = secTerminal.scrollHeight;
+          }
+        });
+      }
 
     });
   </script>
